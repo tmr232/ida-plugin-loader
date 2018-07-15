@@ -47,9 +47,13 @@ Located in the same directory as the `.idb` you're loading.
 
 To install your plugins, just add them to one of the lists. This allows you to easily update plugins as you go without ever needing to copy them.
 
-When IDA starts, it lists the locations of all the plugin lists.
+When IDA starts, the plugin lists the locations of plugin lists in the output window.
 
 ```
-sample
+[PluginLoader] Loading plugins from system-wide and user-specific lists:
+[PluginLoader]   System-wide List:      C:\Program Files\IDA 7.1\cfg\plugins.list
+[PluginLoader]   User-specific List:    C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
+[PluginLoader] Failed creating system plugin list at C:\Program Files\IDA 7.1\cfg\plugins.list
+[PluginLoader] Created user plugin list at C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
 ```
 
