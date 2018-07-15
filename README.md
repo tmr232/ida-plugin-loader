@@ -50,10 +50,11 @@ To install your plugins, just add them to one of the lists. This allows you to e
 When IDA starts, the plugin lists the locations of plugin lists in the output window.
 
 ```
-[PluginLoader] Loading plugins from system-wide and user-specific lists:
+[PluginLoader] Loading plugins from:
 [PluginLoader]   System-wide List:      C:\Program Files\IDA 7.1\cfg\plugins.list
 [PluginLoader]   User-specific List:    C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
 [PluginLoader] Failed creating system plugin list at C:\Program Files\IDA 7.1\cfg\plugins.list
 [PluginLoader] Created user plugin list at C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
 ```
+_Since IDA is not running as admin - it cannot create the system plugin list._
 
