@@ -88,7 +88,7 @@ class PluginLoader(idaapi.plugin_t):
             # This check is not needed, but saves us from the dreaded error message-box
             # that pops when a python plugin is not found.
             if not os.path.isfile(path):
-                message("Plugin file not found: {}".format(path))
+                message("Plugin not found: {}".format(path))
                 continue
             idaapi.load_plugin(path)
         return idaapi.PLUGIN_SKIP
