@@ -61,7 +61,7 @@ class PluginLoader(idaapi.plugin_t):
 
     def init(self):
         # Show usage message.
-        usage_message = ["Loading plugins from system-wide and user-specific lists:",
+        usage_message = ["Loading plugins from:",
                          "  System-wide List:      {}".format(SYS_PLUGIN_LIST_PATH),
                          "  User-specific List:    {}".format(USER_PLUGIN_LIST_PATH)]
         if PROJECT_PLUGIN_LIST_PATH:
