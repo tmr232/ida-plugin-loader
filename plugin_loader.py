@@ -47,9 +47,10 @@ def iter_paths(filepath):
 
 
 def iter_plugin_paths():
-    return iter_without_duplicates(iter_paths(SYS_PLUGIN_LIST_PATH),
-                                   iter_paths(USER_PLUGIN_LIST_PATH),
-                                   iter_paths(PROJECT_PLUGIN_LIST_PATH))
+    glob_patterns = iter_without_duplicates(iter_paths(SYS_PLUGIN_LIST_PATH),
+                                            iter_paths(USER_PLUGIN_LIST_PATH),
+                                            iter_paths(PROJECT_PLUGIN_LIST_PATH))
+    return iter_without_duplicates(*(glob.iglob(pattern) for pattern in glob_patterns))
 
 
 class PluginLoader(idaapi.plugin_t):
