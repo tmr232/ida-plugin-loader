@@ -41,7 +41,9 @@ def iter_paths(filepath):
                 # Remove trailing spaces and newlines, then normalize to avoid duplicates.
                 path = os.path.normpath(line.strip())
                 if path:
-                    yield path
+                    # Allow for relative paths
+                    real_path = os.path.join(os.path.dirname(path), path)
+                    yield real_path
     except IOError:
         pass
 
