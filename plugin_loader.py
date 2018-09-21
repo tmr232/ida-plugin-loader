@@ -1,9 +1,10 @@
+import glob
 import os
 import itertools
 import idaapi
 import idc
 
-PLUGINS_LIST = "plugins.list"
+PLUGINS_LIST = "plugins-{}.list".format(idaapi.get_kernel_version())
 
 USER_PLUGIN_LIST_PATH = os.path.join(idaapi.get_user_idadir(), PLUGINS_LIST)
 SYS_PLUGIN_LIST_PATH = os.path.join(idaapi.idadir(idaapi.CFG_SUBDIR), PLUGINS_LIST)
@@ -41,15 +42,18 @@ def iter_paths(filepath):
                 # Remove trailing spaces and newlines, then normalize to avoid duplicates.
                 path = os.path.normpath(line.strip())
                 if path:
-                    yield path
+                    # Allow for relative paths
+                    real_path = os.path.join(os.path.dirname(path), path)
+                    yield real_path
     except IOError:
         pass
 
 
 def iter_plugin_paths():
-    return iter_without_duplicates(iter_paths(SYS_PLUGIN_LIST_PATH),
-                                   iter_paths(USER_PLUGIN_LIST_PATH),
-                                   iter_paths(PROJECT_PLUGIN_LIST_PATH))
+    glob_patterns = iter_without_duplicates(iter_paths(SYS_PLUGIN_LIST_PATH),
+                                            iter_paths(USER_PLUGIN_LIST_PATH),
+                                            iter_paths(PROJECT_PLUGIN_LIST_PATH))
+    return iter_without_duplicates(*(glob.iglob(pattern) for pattern in glob_patterns))
 
 
 class PluginLoader(idaapi.plugin_t):
