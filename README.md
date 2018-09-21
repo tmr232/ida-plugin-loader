@@ -18,7 +18,7 @@ Once installed (the old way) the `plugin_loader.py` plugin allows you to define 
 
 ### Plugin Lists
 
-All plugin lists are named `plugins.list`, and look something like this:
+All plugin lists are named `plugins-7.1.list` (`7.1` being the IDA version), and look something like this:
 
 ```
 C:\Plugins\my_plugin.py
@@ -35,7 +35,7 @@ The system-wide list resides under IDA’s `cfg` subdirectory. The path can be f
 
 #### User-Specific
 
-Located in IDA’s user-directory. `$HOME/.idapro` on Linux, `%appdata/%HexRays/IDA Pro` on Windows. The path can be found using `idaapi.get_user_idadir()`. Users can set their own plugins to load, thus eliminating the need for root access.
+Located in IDA’s user-directory. `$HOME/.idapro` on Linux, `%APPDATA%/HexRays/IDA Pro` on Windows. The path can be found using `idaapi.get_user_idadir()`. Users can set their own plugins to load, thus eliminating the need for root access.
 
 #### Project-Specific
 
@@ -51,10 +51,10 @@ When IDA starts, the plugin lists the locations of plugin lists in the output wi
 
 ```
 [PluginLoader] Loading plugins from:
-[PluginLoader]   System-wide List:      C:\Program Files\IDA 7.1\cfg\plugins.list
-[PluginLoader]   User-specific List:    C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
-[PluginLoader] Failed creating system plugin list at C:\Program Files\IDA 7.1\cfg\plugins.list
-[PluginLoader] Created user plugin list at C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins.list
+[PluginLoader]   System-wide List:      C:\Program Files\IDA 7.1\cfg\plugins-7.1.list
+[PluginLoader]   User-specific List:    C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins-7.1.list
+[PluginLoader] Failed creating system plugin list at C:\Program Files\IDA 7.1\cfg\plugins-7.1.list
+[PluginLoader] Created user plugin list at C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins-7.1.list
 ```
 _Since IDA is not running as admin - it cannot create the system plugin list._
 
