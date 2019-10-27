@@ -8,8 +8,9 @@ PLUGINS_LIST = "plugins-{}.list".format(idaapi.get_kernel_version())
 
 USER_PLUGIN_LIST_PATH = os.path.join(idaapi.get_user_idadir(), PLUGINS_LIST)
 SYS_PLUGIN_LIST_PATH = os.path.join(idaapi.idadir(idaapi.CFG_SUBDIR), PLUGINS_LIST)
-if idc.GetIdbPath():
-    PROJECT_PLUGIN_LIST_PATH = os.path.join(os.path.dirname(idc.GetIdbPath()), PLUGINS_LIST)
+IDB_PATH = idaapi.get_path(idaapi.PATH_TYPE_IDB)
+if IDB_PATH:
+    PROJECT_PLUGIN_LIST_PATH = os.path.join(os.path.dirname(IDB_PATH), PLUGINS_LIST)
 else:
     PROJECT_PLUGIN_LIST_PATH = None
 
