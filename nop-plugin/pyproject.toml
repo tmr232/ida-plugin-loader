@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "idapython-nop-plugin"
+version = "0.1.0"
+description = ''
+requires-python = ">=3.10"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Tamir Bahar" },
+]
+
+dependencies = []
+
+
+[project.entry-points.idapython]
+nop-plugin = "nop_plugin"

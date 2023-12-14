@@ -1,60 +1,53 @@
 # IDA Plugin Loader
-## Why?
 
-IDA provides a single way to install plugins. Just stick them under `plugins` and you're good to go.
+What if you could install IDA plugins using `pip`?
 
-While it works, the drawbacks are many.
+What if they could bring their dependencies along?
 
-1. You have to copy your plugins into the plugins directory. For Python plugins, this can get quite cumbersome;
-2. Plugins often depend on multiple files. This has the tendency to clutter your `plugins` directory quite a bit;
-3. The same plugins are loaded for all users and projects. This is not always desireable;
-4. Adding a new plugin requires root access.
+Well, now you can!
 
-The plugin-loader plugin allows you to circumvent all those drawbacks.
+## Installation
 
-## How?
+Copy the `plugin_loader.py` plugin into your IDA plugins directory
 
-Once installed (the old way) the `plugin_loader.py` plugin allows you to define plugin-lists. There are 3 types of lists - system-wide, user-specific, and project-specific. Listed plugins load automatically at the appropriate time.
+## Creating Installable Plugins
 
-### Plugin Lists
+You'll have to create a proper Python package.
+With [Hatch](https://hatch.pypa.io/latest/), it's relatively straightforward.
+You can look at [`nop-plugin`][./nop-plugin] for an example.
 
-All plugin lists are named `plugins-7.1.list` (`7.1` being the IDA version), and look something like this:
+To keep things orderly, I recommend prefixing the package name with `idapython-`.
 
+Once you have a package, you need the plugin-loader to find it!
+To do that, add an `idapython` entry-point to your package, pointing to your plugin module.
+See the `nop-plugin` for an example:
+
+```toml
+#                      Specify the idapython group
+#                        |
+#                        v
+[project.entry-points.idapython]
+nop-plugin = "nop_plugin"
+#   ^             ^
+#   |             |
+# Plugin name     |
+#               Plugin module name
 ```
-C:\Plugins\my_plugin.py
 
-# This is a comment. Comments are always entire lines.
-C:\OtherPlugins\another_plugin.py
+Note that no two plugins can have the same entry-point name!
+
+
+## Installing Plugins
+
+Using the Python version IDA uses (see `idapyswitch.exe`), install the package containing your plugin.
+Either from its directory, from git, or from PyPI.
+
+```shell
+py -3.10 -m pip install "git+https://github.com/tmr232/ida-plugin-loader@python-entry-point#egg=idapython-nop-plugin&subdirectory=nop-plugin"
 ```
 
-When IDA starts, both `my_plugin.py` and `another_plugin.py` will be loaded.
+While developing locally, you can use an editable installation:
 
-#### System-Wide
-
-The system-wide list resides under IDA’s `cfg` subdirectory. The path can be found using `idaapi.idadir(idaapi.CFG_SUBDIR)`. This list requires root access to modify as it is in IDA’s installation directory.
-
-#### User-Specific
-
-Located in IDA’s user-directory. `$HOME/.idapro` on Linux, `%APPDATA%/HexRays/IDA Pro` on Windows. The path can be found using `idaapi.get_user_idadir()`. Users can set their own plugins to load, thus eliminating the need for root access.
-
-#### Project-Specific
-
-Located in the same directory as the `.idb` you're loading.
-
-
-
-## Usage
-
-To install your plugins, just add them to one of the lists. This allows you to easily update plugins as you go without ever needing to copy them.
-
-When IDA starts, the plugin lists the locations of plugin lists in the output window.
-
+```shell
+py -3.10 -m pip install -e ./nop-plugin
 ```
-[PluginLoader] Loading plugins from:
-[PluginLoader]   System-wide List:      C:\Program Files\IDA 7.1\cfg\plugins-7.1.list
-[PluginLoader]   User-specific List:    C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins-7.1.list
-[PluginLoader] Failed creating system plugin list at C:\Program Files\IDA 7.1\cfg\plugins-7.1.list
-[PluginLoader] Created user plugin list at C:\Users\user\AppData\Roaming\Hex-Rays\IDA Pro\plugins-7.1.list
-```
-_Since IDA is not running as admin - it cannot create the system plugin list._
-
